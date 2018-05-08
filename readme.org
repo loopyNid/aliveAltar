@@ -1,4 +1,16 @@
 * aliveAltar
-this will become an interactive installation.
+this interactive installation uses a raspberry pi and a arduino/arduinos.
+** raspberry pi
+   the raspberry pi runs supercollider and was configured with the help of
+   this repository: https://github.com/iani/RPI-first-steps
+
+*** manual jackd start
+#+BEGIN_SRC sh
+jackd -P75 -dalsa -dhw:0 -p1024 -n3 -s -r44100
+#+END_SRC
+
+** arduino
+   the arduino is sending readings of ultrasonic sensors to the
+   raspberry>supercollider
 
 <|~_=|>
