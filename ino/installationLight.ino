@@ -59,21 +59,6 @@ void loop() {
   Serial.print(uS2RNDT);
   Serial.println("cm");  
   }
-  
 
-//   if( (sonar1.ping_cm() < 70 || sonar2.ping_cm() < 70) && (sonar1.ping_cm() > 2 || sonar2.ping_cm()) ){
-//     if(brightness >= 255){
-//       brightness = 255;
-//     } else {
-//       brightness = brightness + fadeAmount;
-//     }
-//   }else if( (sonar1.ping_cm() >70 || sonar2.ping_cm()) ) {
-//     if( brightness <= 0 ){
-//       brightness = 0;
-//     } else {
-//     brightness =  brightness - fadeAmount;
-//     } 
-//  }
-  
  
 }
