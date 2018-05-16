@@ -3,7 +3,7 @@
 
 #define trigPin1 12  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define echoPin1 11  // Arduino pin tied to echo pin on the ultrasonic sensor.
-#define MAX_DISTANCE 300 // Maximum distance we want to ping for (in centimeters). Maximum sensor distance is rated at 400-500cm.
+#define MAX_DISTANCE 400 // Maximum distance we want to ping for (in centimeters). Maximum sensor distance is rated at 400-500cm.
 #define trigPin2 10
 #define echoPin2 6
 int led = 9;
@@ -22,28 +22,58 @@ void setup() {
 void loop() {
  
   analogWrite(led, brightness);
-  delay(50);                     // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
-  Serial.print("Ping 1: ");
-  Serial.print(sonar1.ping_cm()); // Send ping, get distance in cm and print result (0 = outside set distance range)
-  Serial.println("cm");
   
-  Serial.print("Ping 2: ");
-  Serial.print(sonar2.ping_cm());
+  delay(50);                     // Wait 50ms between pings (about 20 pings/sec). 29ms should be the shortest delay between pings.
+
+  unsigned int uS1 = sonar1.ping();
+  unsigned int uS2 = sonar2.ping();
+  unsigned int uS1RNDT = uS1 / US_ROUNDTRIP_CM;
+  unsigned int uS2RNDT = uS2 / US_ROUNDTRIP_CM;
+  if(uS1RNDT == 0){
+    
+  }
+  else{
+  Serial.print("Ping 1: ");
+  Serial.print(uS1RNDT); // Send ping, get distance in cm and print result (0 = outside set distance range)
   Serial.println("cm");
 
-  if( (sonar1.ping_cm() < 70 || sonar2.ping_cm() < 70) && (sonar1.ping_cm() > 2 || sonar2.ping_cm()) ){
-    if(brightness >= 255){
-      brightness = 255;
-    } else {
-      brightness = brightness + fadeAmount;
-    }
-  }else if( (sonar1.ping_cm() >70 || sonar2.ping_cm()) ) {
-    if( brightness <= 0 ){
-      brightness = 0;
-    } else {
-    brightness =  brightness - fadeAmount;
-    } 
+  if((uS1RNDT < 70) && (uS1RNDT > 2)){
+     if(brightness >= 245){
+       brightness = 255;
+     } else {
+       brightness = brightness + fadeAmount;
+     }
+  }else if(uS1RNDT > 70){
+     if( brightness <= 10 ){
+       brightness = 0;
+     } else {
+      brightness =  brightness - fadeAmount;
+     }
   }
+  }
+  if(uS2RNDT == 0){
+  
+  }
+  else{
+  Serial.print("Ping 2: ");
+  Serial.print(uS2RNDT);
+  Serial.println("cm");  
+  }
+  
+
+//   if( (sonar1.ping_cm() < 70 || sonar2.ping_cm() < 70) && (sonar1.ping_cm() > 2 || sonar2.ping_cm()) ){
+//     if(brightness >= 255){
+//       brightness = 255;
+//     } else {
+//       brightness = brightness + fadeAmount;
+//     }
+//   }else if( (sonar1.ping_cm() >70 || sonar2.ping_cm()) ) {
+//     if( brightness <= 0 ){
+//       brightness = 0;
+//     } else {
+//     brightness =  brightness - fadeAmount;
+//     } 
+//  }
   
  
 }
