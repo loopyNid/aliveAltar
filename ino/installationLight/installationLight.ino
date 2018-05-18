@@ -33,10 +33,9 @@ void loop() {
     
   }
   else{
-  Serial.print("Ping 1: ");
-  Serial.print(uS1RNDT); // Send ping, get distance in cm and print result (0 = outside set distance range)
-  Serial.println("cm");
-
+  Serial.print("US1:");
+  Serial.println(uS1RNDT); // Send ping, get distance in cm and print result (0 = outside set distance range)
+ 
   if((uS1RNDT < 70) && (uS1RNDT > 2)){
      if(brightness >= 245){
        brightness = 255;
@@ -55,9 +54,8 @@ void loop() {
   
   }
   else{
-  Serial.print("Ping 2: ");
-  Serial.print(uS2RNDT);
-  Serial.println("cm");  
+  Serial.print("US2:");
+  Serial.println(uS2RNDT);
   }
 
  
