@@ -1,13 +1,15 @@
 s.boot;
 SerialPort.listDevices;
 (
-~ino = ArduinoSMS("/dev/ttyACM0", 115200);
+~ino = ArduinoSMS("/dev/ttyACM3", 115200);
 ~sample = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/naturalDisaster.wav");
 f = 0.01;
 v = 0.1;
 ~v2 = 0;
 ~val1 = 0;
 ~val2 = 0;
+~val3 = 0;
+~val4 = 0;
 SynthDef(\testSynth, {|freq = 105, amp|
 	Out.ar(0, SinOsc.ar(freq) * amp * 2);
 }).add;
@@ -18,6 +20,7 @@ SynthDef(\disaster, {|amp|
 )
 s.sendMsg(\s_new, \testSynth, 3000, 0, 1);
 s.sendMsg(\s_new, \disaster, 2000, 0, 1);
+~ino.action = {|msg| msg.postln;}
 (
 ~ino.action = {|msg|
 	var amsg = split(msg, $:);
@@ -26,10 +29,17 @@ s.sendMsg(\s_new, \disaster, 2000, 0, 1);
 	~v2.postln;
 	if( sensor == \US1, {
 		~val1 = val;
-	},{
+	});
+	if( sensor == \US2,{
 		~val2 = val;
 	});
-	if((~val1 < 70) || (~val2 < 70) , {
+	if( sensor == \US3,{
+		~val3 = val;
+	});
+	if( sensor == \US4,{
+		~val4 = val;
+	});
+	if((~val1 < 70) || (~val2 < 70) || (~val3 < 70) || (~val4 < 70), {
 		if(v < 1, {
 			v = v + f;
 			~v2 = ~v2 - f;
