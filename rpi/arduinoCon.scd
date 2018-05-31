@@ -2,8 +2,8 @@ s.boot;
 SerialPort.listDevices;
 (
 ~ino = ArduinoSMS("/dev/ttyACM3", 115200);
-~sample = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/naturalDisaster.wav");
-~sample2 = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/warZone.wav");
+~sample = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/mainDis.wav");
+~sample2 = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/peace.wav");
 f = 0.01;
 v = 0.1;
 ~v2 = 0;
@@ -15,12 +15,14 @@ v = 0.1;
 SynthDef(\testSynth, {|freq = 200, amp|
 	Out.ar(0, SinOsc.ar(freq) * amp);
 }).add;
-SynthDef(\testSynth2, {|freq = 600, amp|
-	Out.ar(0, SinOsc.ar(freq) * amp);
-}).add;
-SynthDef(\disaster, {|amp, bufnum, dur|
+SynthDef(\testSynth2, {|amp|
 	var src;
-	src = PlayBuf.ar(2, bufnum, loop: 1, rate: 1);
+	src = PlayBuf.ar(2, 1, loop: 1, rate: 1);
+	Out.ar(0, src*amp*2);
+}).add;
+SynthDef(\disaster, {|amp|
+	var src;
+	src = PlayBuf.ar(2, 0, loop: 1, rate: 1);
 	Out.ar(0, src*amp*2);
 }).add;
 )
@@ -62,8 +64,8 @@ s.sendMsg(\s_new, \testSynth2, 1999, 0, 1);
 			~v3 = 0;
 		});
 		s.sendMsg(\n_set, 3000, \amp, v);
-		s.sendMsg(\n_set, 2000, \amp, ~v2);
-		s.sendMsg(\n_set, 1999, \amp, ~v3);
+		s.sendMsg(\n_set, 2000, \amp, ~v3);
+		s.sendMsg(\n_set, 1999, \amp, ~v2);
 	}, {
 		if(((~val1 < 140) || (~val2 < 140) || (~val3 < 140) || (~val4 < 140)), {
 			if( ~v2 < 1, {
@@ -80,8 +82,8 @@ s.sendMsg(\s_new, \testSynth2, 1999, 0, 1);
 				~v3 = 0;
 			});
 			s.sendMsg(\n_set, 3000, \amp, v);
-			s.sendMsg(\n_set, 2000, \amp, ~v2);
-			s.sendMsg(\n_set, 1999, \amp, ~v3);
+			s.sendMsg(\n_set, 2000, \amp, ~v3);
+			s.sendMsg(\n_set, 1999, \amp, ~v2);
 		},
 			{
 			if( ~v3 < 1, {
@@ -98,8 +100,8 @@ s.sendMsg(\s_new, \testSynth2, 1999, 0, 1);
 				~v3 = 1;
 			});
 			s.sendMsg(\n_set, 3000, \amp, v);
-			s.sendMsg(\n_set, 2000, \amp, ~v2);
-			s.sendMsg(\n_set, 1999, \amp, ~v3);
+			s.sendMsg(\n_set, 2000, \amp, ~v3);
+			s.sendMsg(\n_set, 1999, \amp, ~v2);
 			}
 		);
 		
