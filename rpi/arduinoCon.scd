@@ -1,7 +1,7 @@
 s.boot;
 SerialPort.listDevices;
 (
-~ino = ArduinoSMS("/dev/ttyACM3", 115200);
+~ino = ArduinoSMS("/dev/ttyACM0", 115200);
 ~sample = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/mainDis.wav");
 ~sample2 = Buffer.read(s, Platform.userHomeDir +/+ "aliveAltar/samples/peace.wav");
 f = 0.01;
